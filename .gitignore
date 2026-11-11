@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
+.pytest_cache/
+*.egg-info/
+
+# 模型文件（太大，不走 Git）
+models/
+
+# 向量数据库
+data/chroma_db/
+
+# IDE
+.idea/
+.vscode/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# 临时文件
+*.bak
+*.tmp

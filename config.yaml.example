@@ -1,0 +1,57 @@
+# LLM 配置（支持本地 Ollama 或兼容 OpenAI 接口）
+llm:
+  provider: ollama          # ollama | openai_compatible
+  base_url: http://localhost:11434
+  model: qwen2.5:7b         # 推荐：qwen2.5:7b 或 llama3:8b
+  temperature: 0.1
+  max_tokens: 2048
+
+# 嵌入模型（离线运行）
+embedding:
+  model: BAAI/bge-small-zh-v1.5
+  device: cpu               # cpu | cuda
+  batch_size: 32
+
+# NLI 三分类模型（证据蕴含判定）
+nli:
+  model: hfl/chinese-roberta-wwm-ext  # 可替换为本地路径
+  device: cpu
+  threshold_support: 0.6    # 支持阈值
+  threshold_refute: 0.6     # 反驳阈值
+  # 低于两个阈值 → 证据不足
+
+# 向量数据库
+vectordb:
+  type: chroma              # chroma（本地持久化，无需外部服务）
+  persist_dir: ./data/chroma_db
+  collection: private_docs
+
+# 检索配置
+retrieval:
+  top_k: 5                  # 初次召回数量
+  expand_k: 10              # 扩量召回数量
+  use_bm25: true            # 混合检索
+  rerank: false             # 是否启用重排（需额外模型）
+
+# 文档解析
+ingestion:
+  chunk_size: 400           # 字符数
+  chunk_overlap: 50
+  extract_metadata: true    # 自动提取型号、版本等元数据
+
+# 智能体调度
+agent:
+  max_iterations: 3         # 最大修复轮次
+  refuse_on_exhaustion: true
+  min_supported_ratio: 0.7  # 至少 70% 句子有支持证据才输出
+
+# API 服务
+api:
+  host: 0.0.0.0
+  port: 8000
+  cors_origins: ["*"]
+
+# 日志
+logging:
+  level: INFO
+  file: logs/agent.log
